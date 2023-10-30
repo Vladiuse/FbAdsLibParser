@@ -184,9 +184,8 @@ DRIVER = webdriver.Chrome(
     # seleniumwire_options=options
 )
 DRIVER.maximize_window()
-
-
 def parse_by_keys(keys, country):
+    DRIVER.get('https://web.facebook.com/ads/library')
     DAYS_AGO = 1
     start_date = str(datetime.now().date() - timedelta(days=DAYS_AGO))
     global_errors_count = 0
