@@ -14,7 +14,6 @@ from print_color import print as cprint
 from .messages import *
 from .exceptions import *
 
-
 def log_links(links):
     """Записать ссылки из карточек в лог файл"""
     with open('/home/vlad/links.txt', 'a') as file:
