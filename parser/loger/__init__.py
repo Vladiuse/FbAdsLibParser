@@ -1,0 +1,1 @@
+from .main import log_links_in_file
