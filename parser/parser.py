@@ -9,19 +9,19 @@ import time
 from selenium.common.exceptions import NoSuchElementException
 from datetime import datetime, timedelta
 from playsound import playsound
-from pathlib import Path
 from print_color import print as cprint
-from .messages import *
 from .exceptions import *
+from .loger import log_links_in_file
 
-def log_links(links):
-    """Записать ссылки из карточек в лог файл"""
-    with open('/home/vlad/links.txt', 'a') as file:
-        for link in links:
-            file.write(link + '\n')
+NEXT_KEY = """
+##############
+#  NEXT KEY  #
+##############
+"""
 
+class FbAdsLibUrl:
+    FB_ADSLIB_MAIN_PAGE = 'https://web.facebook.com/ads/library'
 
-class FbLibPage:
     URL_PARAMS = {'active_status': 'active',
                   # 'ad_type': 'political_and_issue_ads',
                   'ad_type': 'all',
@@ -38,21 +38,10 @@ class FbLibPage:
 
     FB_LIB_URL = 'https://www.facebook.com/ads/library/'
 
-    PAGES_FOR_KEY_WORD = 200
-
-    TIME_FOR_CARDS_LOADING = 3
-    MAX_WAIT_TIME_CARDS_LOAD = 30
-    BLOCK_CLASS_NAME = 'xxx'
-
-    # TODO add cards count
-    # TODO add get payment data
-    # TODo добавить голосовое сколько прошло времени - час два (мб нужно будет менять айпи)
-
-    def __init__(self, *, q, start_date, country):
+    def __init__(self, *, q, country, start_date=None):
         self.q = q
-        self.start_date = start_date
         self.country = country
-        self.days_ago = str(datetime.now().date() - timedelta(days=1))
+        self.start_date = start_date if start_date else str(datetime.now().date() - timedelta(days=1))
 
     def _get_params(self):
         params = self.URL_PARAMS
@@ -70,9 +59,30 @@ class FbLibPage:
     def url(self):
         return self._prepare_url()
 
+class FbAdsLibParser:
+
+    def __init__(self, driver):
+        self.driver = driver
+
+    PAGES_FOR_KEY_WORD = 200
+
+    MAX_WAIT_TIME_CARDS_LOAD = 30
+
+    # TODO add cards count
+    # TODO add get payment data
+    # TODo добавить голосовое сколько прошло времени - час два (мб нужно будет менять айпи)
+
+    def open_main(self):
+        self.driver.get(FbAdsLibUrl.FB_ADSLIB_MAIN_PAGE)
+
+    def open_lib(self, *,q, country,**kwargs):
+        fb_lib_url = FbAdsLibUrl(q=q, country=country,**kwargs)
+        self.driver.get(fb_lib_url)
+
+
     def remove_all_cards(self):
         """Удалить все карточки со страницы"""
-        DRIVER.execute_script("""
+        self.driver.execute_script("""
 var cards = document.querySelectorAll('div.xrvj5dj.xdq2opy.xexx8yu.xbxaen2.x18d9i69.xbbxn1n.xdoe023.xbumo9q.x143o31f.x7sq92a.x1crum5w > div.xh8yej3')
 for (let i=0; i < cards.length; i++){
     var card = cards[i]
@@ -82,7 +92,7 @@ for (let i=0; i < cards.length; i++){
 
     def click_load_new_js(self):
         """Клик на кнопку загрузки новых карт"""
-        DRIVER.execute_script("""
+        self.driver.execute_script("""
 var load_new_button = document.querySelector('a._8n_3')
 load_new_button.click()
                 """)
@@ -95,7 +105,7 @@ load_new_button.click()
             if self.cards_count():  # не кликать кнопку - если карточки стали загружаться автоматически
                 return
             try:
-                button = DRIVER.find_element(By.CSS_SELECTOR, 'a._8n_3')
+                button = self.driver.find_element(By.CSS_SELECTOR, 'a._8n_3')
                 sleep(0.5)  # 1 is old value
                 if button:
                     if self.cards_count():  # не кликать кнопку - если карточки стали загружаться автоматически
@@ -108,7 +118,7 @@ load_new_button.click()
 
     def hide_cards_media(self):
         """Скрить медиа контент у карточек"""
-        DRIVER.execute_script("""
+        self.driver.execute_script("""
 const styleNoMedia = document.createElement("style")
 styleNoMedia.textContent = "div.xrvj5dj.xdq2opy.xexx8yu.xbxaen2.x18d9i69.xbbxn1n.xdoe023.xbumo9q.x143o31f.x7sq92a.x1crum5w > div.xh8yej3  ._7jyg._7jyh{display:none;}"
 document.head.appendChild(styleNoMedia)
@@ -116,24 +126,24 @@ document.head.appendChild(styleNoMedia)
 
     def cards_count(self):
         """Посчитать сколько карточек на странице"""
-        cards = DRIVER.find_elements(By.CSS_SELECTOR,
+        cards = self.driver.find_elements(By.CSS_SELECTOR,
                                      'div.xrvj5dj.xdq2opy.xexx8yu.xbxaen2.x18d9i69.xbbxn1n.xdoe023.xbumo9q.x143o31f.x7sq92a.x1crum5w > div.xh8yej3')
         return len(cards)
 
     def get_links(self):
         """Достать ссылки на группы из верски"""
-        html = str(DRIVER.page_source)
+        html = str(self.driver.page_source)
         cards_searcher = CardSearch(html)
         return cards_searcher.links
 
-    def run(self):
+    def parse(self):
         self.hide_cards_media()
-        for _ in range(self.PAGES_FOR_KEY_WORD): # TODO rewrite on while
+        while True:
             self._wait_cards_load()
             links = self.get_links()
-            log_links(links)
+            log_links_in_file(links)
             current_time = datetime.now().strftime('%H:%M:%S')
-            print(f'Links count: {len(links)}', self.q, current_time)
+            print(f'Links count: {len(links)}', current_time)
             print('#' * len(links))
             self.remove_all_cards()
             self.click_load_new_cards()
@@ -157,7 +167,7 @@ document.head.appendChild(styleNoMedia)
     def _is_fb_block_loading(self):
         """Проверить не поялился ли блок 'Слишком много запросов' """
         try:
-            info_block = DRIVER.find_element(By.CSS_SELECTOR,
+            info_block = self.driver.find_element(By.CSS_SELECTOR,
                                              'div.x11408do.xr1yuqi.xkrivgy.x4ii5y1.x1gryazu.xw5ewwj.xh8yej3.x2b8uid')
             if info_block:
                 raise FbBlockLibError
@@ -171,10 +181,7 @@ document.head.appendChild(styleNoMedia)
 #         'https':PROXY,
 # 	}
 # }
-curr_file_path = Path(__file__).parent.absolute()
-error_media_path = os.path.join(curr_file_path, 'media/error.mp3')
-fb_block_media_path = os.path.join(curr_file_path, 'media/fb_block_lib.mp3')
-card_wait_timeout = os.path.join(curr_file_path, 'media/card_wait_timeout.mp3')
+
 
 options = webdriver.ChromeOptions()
 # options.add_argument('--headless')
@@ -184,52 +191,34 @@ DRIVER = webdriver.Chrome(
 )
 DRIVER.maximize_window()
 def parse_by_keys(keys, country):
-    DRIVER.get('https://web.facebook.com/ads/library')
+    DRIVER.get(FbAdsLibUrl.FB_ADSLIB_MAIN_PAGE)
     DAYS_AGO = 1
     start_date = str(datetime.now().date() - timedelta(days=DAYS_AGO))
     global_errors_count = 0
     GLOBAL_ERRORS_LIMIT = 2
+    fb_adslib = FbAdsLibParser(DRIVER)
     for key in keys:
         try:
             cprint(NEXT_KEY, color='green')
-            fb_lib_page = FbLibPage(q=key, country=country, start_date=start_date)
-            DRIVER.get(fb_lib_page.url)  # todo add timeout and check status code
+            fb_lib_url = FbAdsLibUrl(q=key, country=country, start_date=start_date).url
+            DRIVER.get(fb_lib_url)
+            # DRIVER.get(fb_lib_page.url)  # todo add timeout and check status code
             global_errors_count = 0
-            fb_lib_page.run()
+            fb_adslib.parse()
         except FbBlockLibError as error:
-            cprint(FB_LIB_BLOCK, color='red')
-            playsound(fb_block_media_path)
+            error()
             sleep(15)
             DRIVER.quit()
             exit()
         except (MaxWaitCardLoadError, NoLoadCardBtnError) as error:
             print(key, '\n', error)
-            cprint(CARD_WAIT_TIMEOUT, color='yellow')
-            playsound(card_wait_timeout)
+            error()
         except Exception as error:
             print(key, '\n', error)
-            cprint(UNKNOWN_ERROR, color='red')
+            CriticalError()()
             global_errors_count += 1
-            playsound(error_media_path)
             if global_errors_count >= GLOBAL_ERRORS_LIMIT:
                 DRIVER.quit()
                 exit()
 
     DRIVER.quit()
-
-
-if __name__ == '__main__':
-    keys = [
-
-        # 'come', 'fix', 'internet', 'fire', 'live','over',
-        # 'night', 'like', 'woman'
-        # 'most',
-        # 'see', 'only', 'way', 'many', 'his', 'give',
-        # 'call', 'send', 'meet','time', 'day', 'summer',
-        # 'and', 'free', 'home', 'pass',
-        'than', 'size', 'baby', 'star', 'wife', 'game',
-        'when', 'price', 'mobile', 'when', 'game',
-    ]
-    # DRIVER.get('https://google.com/')
-    # input('Start?')
-    # parse_by_keys(keys)
