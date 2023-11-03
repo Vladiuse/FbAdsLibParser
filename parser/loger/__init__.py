@@ -1,1 +1,1 @@
-from .main import log_links_in_file
+from .txt_loger import TxtLogger

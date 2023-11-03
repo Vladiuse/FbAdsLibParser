@@ -1,6 +1,5 @@
 import os
 from selenium import webdriver
-# from seleniumwire import webdriver
 from requests.models import PreparedRequest
 from time import sleep
 from selenium.webdriver.common.by import By
@@ -8,10 +7,7 @@ from .cards import CardSearch
 import time
 from selenium.common.exceptions import NoSuchElementException
 from datetime import datetime, timedelta
-from playsound import playsound
-from print_color import print as cprint
 from .exceptions import *
-from .loger import log_links_in_file
 
 NEXT_KEY = """
 ##############
@@ -67,6 +63,7 @@ class FbAdsLibParser:
     PAGES_FOR_KEY_WORD = 200
 
     MAX_WAIT_TIME_CARDS_LOAD = 30
+    NEW_CARDS_BNT_WAIT = 20
 
     # TODO add cards count
     # TODO add get payment data
@@ -76,8 +73,11 @@ class FbAdsLibParser:
         self.driver.get(FbAdsLibUrl.FB_ADSLIB_MAIN_PAGE)
 
     def open_lib(self, *,q, country,**kwargs):
-        fb_lib_url = FbAdsLibUrl(q=q, country=country,**kwargs)
+        fb_lib_url = FbAdsLibUrl(q=q, country=country,**kwargs).url
         self.driver.get(fb_lib_url)
+
+    def open_my_ip(self):
+        self.driver.get('https://2ip.ru/')
 
 
     def remove_all_cards(self):
@@ -98,8 +98,11 @@ load_new_button.click()
                 """)
 
     def click_load_new_cards(self):
+        start = time.time()
         """ожидать кнопку загрузки новыз карточек"""
-        for _ in range(20):
+        while True:
+            if time.time() - start > FbAdsLibParser.NEW_CARDS_BNT_WAIT:
+                raise NoLoadCardBtnError
             self._is_fb_block_loading()
             sleep(1)  # 1 is old value
             if self.cards_count():  # не кликать кнопку - если карточки стали загружаться автоматически
@@ -114,7 +117,7 @@ load_new_button.click()
                     return
             except NoSuchElementException as error:
                 pass
-        raise NoLoadCardBtnError
+
 
     def hide_cards_media(self):
         """Скрить медиа контент у карточек"""
@@ -141,10 +144,7 @@ document.head.appendChild(styleNoMedia)
         while True:
             self._wait_cards_load()
             links = self.get_links()
-            log_links_in_file(links)
-            current_time = datetime.now().strftime('%H:%M:%S')
-            print(f'Links count: {len(links)}', current_time)
-            print('#' * len(links))
+            yield links
             self.remove_all_cards()
             self.click_load_new_cards()
 
@@ -173,52 +173,3 @@ document.head.appendChild(styleNoMedia)
                 raise FbBlockLibError
         except NoSuchElementException:
             pass
-
-
-# PROXY = 'http://MeHeS7:Eb1Empua4ES6@nproxy.site:14569/'
-# options = {
-# 	'proxy': {
-#         'https':PROXY,
-# 	}
-# }
-
-
-options = webdriver.ChromeOptions()
-# options.add_argument('--headless')
-DRIVER = webdriver.Chrome(
-    options=options,
-    # seleniumwire_options=options
-)
-DRIVER.maximize_window()
-def parse_by_keys(keys, country):
-    DRIVER.get(FbAdsLibUrl.FB_ADSLIB_MAIN_PAGE)
-    DAYS_AGO = 1
-    start_date = str(datetime.now().date() - timedelta(days=DAYS_AGO))
-    global_errors_count = 0
-    GLOBAL_ERRORS_LIMIT = 2
-    fb_adslib = FbAdsLibParser(DRIVER)
-    for key in keys:
-        try:
-            cprint(NEXT_KEY, color='green')
-            fb_lib_url = FbAdsLibUrl(q=key, country=country, start_date=start_date).url
-            DRIVER.get(fb_lib_url)
-            # DRIVER.get(fb_lib_page.url)  # todo add timeout and check status code
-            global_errors_count = 0
-            fb_adslib.parse()
-        except FbBlockLibError as error:
-            error()
-            sleep(15)
-            DRIVER.quit()
-            exit()
-        except (MaxWaitCardLoadError, NoLoadCardBtnError) as error:
-            print(key, '\n', error)
-            error()
-        except Exception as error:
-            print(key, '\n', error)
-            CriticalError()()
-            global_errors_count += 1
-            if global_errors_count >= GLOBAL_ERRORS_LIMIT:
-                DRIVER.quit()
-                exit()
-
-    DRIVER.quit()

@@ -1,2 +1,2 @@
-from .parser import parse_by_keys, FbAdsLibParser
+from .parser import FbAdsLibParser
 from .driver import get_driver
