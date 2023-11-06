@@ -1,11 +1,12 @@
 from datetime import datetime, timedelta
-from time import sleep
+from time import sleep, time
 from parser import get_driver, FbAdsLibParser
 from parser.keywords import KeyWord
 from parser.exceptions import FbBlockLibError, MaxWaitCardLoadError, NoLoadCardBtnError, CriticalError
 
 DB_PATH = './keyword.db'
 GLOBAL_ERRORS_LIMIT = 2
+
 
 
 def run_adslib_parser(txt_loger,*,country, language, proxy=None, keys_range=(1,500)):
