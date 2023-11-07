@@ -1,31 +1,34 @@
 import re
 import os
+from config import config
 
 
 def _k(num):
     if num > 1000:
-        num = round(num / 1000,1)
+        num = round(num / 1000, 1)
         return str(num) + 'k'
     return str(num)
 
+
 class TxtLogger:
+    DEFAULT_TXT_LOG_PASS = config.get('Loger', 'log_file_path')
 
-    def __init__(self, log_file_path):
-        self.log_file_path = log_file_path
+    def __init__(self, log_file_path=None):
+        self.log_file_path = log_file_path if log_file_path else TxtLogger.DEFAULT_TXT_LOG_PASS
 
-    def log_links_in_file(self,links):
+    def log_links_in_file(self, links):
         """Записать ссылки из карточек в лог файл"""
-        with open(self.log_file_path, 'a') as file:
+        with open(self.log_file_path, 'a', encoding='utf-8') as file:
             for link in links:
                 file.write(link + '\n')
 
     @staticmethod
-    def _get_fbgroup_id_from_url(url:str) -> str:
+    def _get_fbgroup_id_from_url(url: str) -> str:
         url = url.strip()
         url = url.replace(' ', '')
         url = url.replace('\n', '')
         url = url.replace('http://', 'https://')
-        url = url.replace('://www.','://' )
+        url = url.replace('://www.', '://')
         if not url.endswith('/'):
             url = url + '/'
         patterns = [
@@ -40,7 +43,6 @@ class TxtLogger:
                 url = url.replace('https://fb.com/page-', '')
                 return url
         return ''
-
 
     def get_links_from_file(self):
         group_links = []
@@ -59,5 +61,3 @@ class TxtLogger:
         print('\nFile: ', os.path.basename(self.log_file_path))
         print(f'Total: {_k(total_links_count)}')
         print(f'Unique: {_k(unique_links_count)} ({unique_percent}%)')
-
-

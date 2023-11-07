@@ -1,8 +1,8 @@
-from print_color import print
+from print_color import print as cprint
 import os
 from pathlib import Path
 from playsound import playsound
-
+from config import config
 
 
 curr_file_path = Path(__file__).parent.absolute()
@@ -14,11 +14,18 @@ class ParserError(Exception):
     error_sound_path = ''
     TEXT_COLOR = 'red'
 
+    PLAY_SOUND = config.get('AdsLibParser', 'play_sound')
+    SHOW_COLORS = config.get('AdsLibParser', 'show_colors')
+
     @classmethod
     def __call__(cls):
-        print(cls.TEXT, color=cls.TEXT_COLOR)
-        media_path = os.path.join(MEDIA_FILES_DIR_PATH, cls.error_sound_path)
-        playsound(media_path)
+        if ParserError.SHOW_COLORS == 'true':
+            cprint(cls.TEXT, color=cls.TEXT_COLOR)
+        else:
+            print(cls.TEXT)
+        if ParserError.PLAY_SOUND == 'true':
+            media_path = os.path.join(MEDIA_FILES_DIR_PATH, cls.error_sound_path)
+            playsound(media_path)
 
 NEXT_KEY = """
 ##############

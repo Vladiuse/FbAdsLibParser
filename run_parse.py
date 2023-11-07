@@ -4,14 +4,12 @@ from parser import get_driver, FbAdsLibParser
 from parser.keywords import KeyWord
 from parser.exceptions import FbBlockLibError, MaxWaitCardLoadError, NoLoadCardBtnError, CriticalError
 
-DB_PATH = './keyword.db'
 GLOBAL_ERRORS_LIMIT = 2
-
 
 
 def run_adslib_parser(txt_loger,*,country, language, proxy=None, keys_range=(1,500)):
     print(txt_loger,country, language, proxy,keys_range )
-    key_words = KeyWord(db_path=DB_PATH)
+    key_words = KeyWord()
     DRIVER = get_driver(proxy=proxy)
     fb_adslib_parser = FbAdsLibParser(DRIVER)
     fb_adslib_parser.open_main()
@@ -42,8 +40,10 @@ def run_adslib_parser(txt_loger,*,country, language, proxy=None, keys_range=(1,5
                 exit()
 
 
-def test_driver(txt_loger,*,country, language, proxy=None, keys_range):
+def test_driver(*,proxy):
     DRIVER = get_driver(proxy=proxy)
     fb_adslib_parser = FbAdsLibParser(DRIVER)
     fb_adslib_parser.open_my_ip()
-    input('Exit?')
+    input('Press enter to exit ')
+    DRIVER.quit()
+    exit()

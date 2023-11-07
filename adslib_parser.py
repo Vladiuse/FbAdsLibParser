@@ -6,8 +6,6 @@ from run_parse import test_driver, run_adslib_parser
 config_file_path = './conf.ini'
 config = ConfigParser()
 config.read(config_file_path)
-log_file_path = config.get('Loger' ,'log_file_path')
-
 
 
 parser = argparse.ArgumentParser(description='xxxx')
@@ -35,7 +33,7 @@ available_commands = {
 }
 args = parser.parse_args()
 
-txt_loger = TxtLogger(log_file_path)
+txt_loger = TxtLogger()
 if args.command == 'parse':
     if not args.country:
         country = config.get('KeyWord', 'country')
@@ -55,14 +53,22 @@ if args.command == 'parse':
             exit()
     else:
         proxy = None
-    # test_driver(txt_loger,country=country, language=language, proxy=proxy,
-    #            keys_range=(start_key,end_key),
-    #            )
     run_adslib_parser(txt_loger, country=country, language=language, proxy=proxy,
                 keys_range=(start_key, end_key),
                 )
 elif args.command == 'parse_stat':
     txt_loger.log_file_stat()
+
+elif args.command == 'test_proxy':
+    if args.proxy:
+        try:
+            proxy = config['Proxy'][args.proxy]
+        except KeyError:
+            print('Incorrect proxy id')
+            exit()
+        test_driver(proxy=proxy)
+    else:
+        print('Chose proxy for test')
 else:
     print('Incorrect command')
     print('Available_commands:', list(available_commands.keys()))
