@@ -8,6 +8,7 @@ import time
 from selenium.common.exceptions import NoSuchElementException
 from datetime import datetime, timedelta
 from .exceptions import *
+from config import config
 
 NEXT_KEY = """
 ##############
@@ -60,10 +61,8 @@ class FbAdsLibParser:
     def __init__(self, driver):
         self.driver = driver
 
-    PAGES_FOR_KEY_WORD = 200
-
-    MAX_WAIT_TIME_CARDS_LOAD = 30
-    NEW_CARDS_BNT_WAIT = 20
+    MAX_WAIT_TIME_CARDS_LOAD = float(config.get('AdsLibParser', 'card_load_timeout_sec'))
+    NEW_CARDS_BNT_WAIT = float(config.get('AdsLibParser', 'new_cards_btn_timeout_sec'))
 
     # TODO add cards count
     # TODO add get payment data
