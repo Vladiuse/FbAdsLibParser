@@ -3,8 +3,11 @@ from time import sleep, time
 from parser import get_driver, FbAdsLibParser
 from parser.keywords import KeyWord
 from parser.exceptions import FbBlockLibError, MaxWaitCardLoadError, NoLoadCardBtnError, CriticalError
+from parser.pinger import Pinger
+
 
 GLOBAL_ERRORS_LIMIT = 2
+pinger = Pinger()
 
 
 def run_adslib_parser(txt_loger,*,country, language, proxy=None, keys_range=(1,500)):
@@ -13,6 +16,7 @@ def run_adslib_parser(txt_loger,*,country, language, proxy=None, keys_range=(1,5
     DRIVER = get_driver(proxy=proxy)
     fb_adslib_parser = FbAdsLibParser(DRIVER)
     fb_adslib_parser.open_main()
+    pinger()
     while True:
         key = key_words.get_key(language=language, range=keys_range)
         fb_adslib_parser.open_lib(q=key, country=country)
@@ -20,6 +24,7 @@ def run_adslib_parser(txt_loger,*,country, language, proxy=None, keys_range=(1,5
         try:
             for links in fb_adslib_parser.parse():
                 txt_loger.log_links_in_file(links)
+                pinger()
                 current_time = datetime.now().strftime('%H:%M:%S')
                 print(f'Links: {len(links)},','Time:', current_time)
                 print('#' * len(links))

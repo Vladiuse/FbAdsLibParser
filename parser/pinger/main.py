@@ -27,7 +27,7 @@ class PingeReqError(Exception):
 class Pinger:
     PC_NAME = config.get('Pc', 'name')
     PING_URL = f'http://{DOMAIN}/{URL}/{PC_NAME}/'
-    PING_TRY = 3
+    PING_TRY = int(config.get('Pinger', 'error_ping_count'))
 
 
     def __call__(self):
