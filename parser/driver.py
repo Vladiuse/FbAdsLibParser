@@ -24,6 +24,8 @@ def get_driver(*,proxy=None):
         chrome_options = webdriver.ChromeOptions()
         if config.get('Driver', 'headless') == 'true':
             chrome_options.add_argument('--headless')
+        if config.get('Driver', 'no_sandbox') == 'true':
+            chrome_options.add_argument('--no-sandbox')
         DRIVER = webdriver_wire.Chrome(
             seleniumwire_options=options,
             options=chrome_options,
