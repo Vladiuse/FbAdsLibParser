@@ -2,6 +2,7 @@ import argparse
 from configparser import ConfigParser
 from parser.loger import TxtLogger
 from run_parse import test_driver, run_adslib_parser
+from parser.keywords import KeyWord
 
 config_file_path = './conf.ini'
 config = ConfigParser()
@@ -59,6 +60,8 @@ if args.command == 'parse':
 elif args.command == 'parse_stat':
     txt_loger.log_file_stat()
 
+elif args.command == 'keys_stat':
+    KeyWord().keys_stat()
 elif args.command == 'test_proxy':
     if args.proxy:
         try:

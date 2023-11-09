@@ -23,3 +23,16 @@ class KeyWord:
         row = cursor.fetchone()
         pk, word, lang, number_in_dict = row
         return word
+
+    def keys_stat(self):
+        con = sqlite3.connect(self.db_path)
+        cursor = con.cursor()
+        command = """
+        SELECT language,COUNT(*) FROM keyword GROUP BY language;
+        """
+        cursor.execute(command)
+        rows = cursor.fetchall()
+        for row in rows:
+            lang, count = row
+            print(lang, count)
+
