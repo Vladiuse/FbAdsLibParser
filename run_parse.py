@@ -15,9 +15,11 @@ def run_adslib_parser(txt_loger,*,country, language, proxy=None, keys_range=(1,5
     key_words = KeyWord()
     DRIVER = get_driver(proxy=proxy)
     fb_adslib_parser = FbAdsLibParser(DRIVER)
+    print('Start open main')
     fb_adslib_parser.open_main()
     pinger()
     while True:
+        print('Start open keys')
         key = key_words.get_key(language=language, range=keys_range)
         fb_adslib_parser.open_lib(q=key, country=country)
         global_errors_count = 0

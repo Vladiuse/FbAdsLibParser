@@ -1,12 +1,14 @@
 from selenium import webdriver
 from seleniumwire import webdriver as webdriver_wire
+from config import config
 
 
 def get_driver(*,proxy=None):
-    pass
-    if not proxy:
-        options = webdriver.ChromeOptions()
+    options = webdriver.ChromeOptions()
 
+    if not proxy:
+        if config.get('Driver', 'headless') == 'true':
+            options.add_argument('--headless')
         DRIVER = webdriver.Chrome(
             options=options,
         )
@@ -18,11 +20,16 @@ def get_driver(*,proxy=None):
                 'https':PROXY,
         	}
         }
+
+        chrome_options = webdriver.ChromeOptions()
+        if config.get('Driver', 'headless') == 'true':
+            chrome_options.add_argument('--headless')
         DRIVER = webdriver_wire.Chrome(
-            seleniumwire_options=options
+            seleniumwire_options=options,
+            options=chrome_options,
         )
-    DRIVER.maximize_window()
-    # options.add_argument('--headless')
+    if config.get('Driver', 'max_window') == 'true':
+        DRIVER.maximize_window()
     return DRIVER
 
 

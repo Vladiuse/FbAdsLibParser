@@ -25,19 +25,21 @@ class PingeReqError(Exception):
 
 
 class Pinger:
+    IS_NEED_PING = config.get('Pinger', 'need_ping')
     PC_NAME = config.get('Pc', 'name')
     PING_URL = f'http://{DOMAIN}/{URL}/{PC_NAME}/'
     PING_TRY = int(config.get('Pinger', 'error_ping_count'))
 
 
     def __call__(self):
-        for _ in range(Pinger.PING_TRY):
-            try:
-                self.ping()
-            except PingeReqError as error:
-                error()
-            else:
-                break
+        if Pinger.IS_NEED_PING == 'true':
+            for _ in range(Pinger.PING_TRY):
+                try:
+                    self.ping()
+                except PingeReqError as error:
+                    error()
+                else:
+                    break
 
     def ping(self):
         try:
