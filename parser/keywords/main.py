@@ -12,7 +12,7 @@ class KeyWord:
 
     def _check_db(self):
         if not os.path.exists(self.db_path):
-            raise ValueError('Db incorrect path')
+            raise ValueError('Db no exists')
 
     def get_key(self, language, range):
         start, end = range
