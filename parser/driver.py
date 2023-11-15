@@ -14,10 +14,9 @@ def get_driver(*,proxy=None):
         )
         DRIVER.maximize_window()
     else:
-        PROXY = 'http://MeHeS7:Eb1Empua4ES6@nproxy.site:14569/'
         options = {
         	'proxy': {
-                'https':PROXY,
+                'https':proxy,
         	}
         }
 
