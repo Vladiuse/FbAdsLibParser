@@ -3,7 +3,7 @@ from seleniumwire import webdriver as webdriver_wire
 from config import config
 
 
-def get_driver(*,proxy=None):
+def get_chrome_driver(*,proxy=None):
     options = webdriver.ChromeOptions()
 
     if not proxy:
@@ -37,7 +37,7 @@ def get_driver(*,proxy=None):
 
 
 if __name__ == '__main__':
-    driver = get_driver(proxy='1')
+    driver = get_chrome_driver(proxy='1')
     driver.get('https://google.com/')
     input('Exit?')
     driver.quit()
