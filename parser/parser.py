@@ -18,6 +18,7 @@ NEXT_KEY = """
 
 class FbAdsLibUrl:
     FB_ADSLIB_MAIN_PAGE = 'https://web.facebook.com/ads/library'
+    START_DAYS_AGO = int(config.get('KeyWord', 'start_days_ago'))
 
     URL_PARAMS = {'active_status': 'active',
                   # 'ad_type': 'political_and_issue_ads',
@@ -38,7 +39,7 @@ class FbAdsLibUrl:
     def __init__(self, *, q, country, start_date=None):
         self.q = q
         self.country = country
-        self.start_date = start_date if start_date else str(datetime.now().date() - timedelta(days=1))
+        self.start_date = start_date if start_date else str(datetime.now().date() - timedelta(days=FbAdsLibUrl.START_DAYS_AGO))
 
     def _get_params(self):
         params = self.URL_PARAMS
