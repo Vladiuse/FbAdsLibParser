@@ -51,7 +51,7 @@ def run_adslib_parser(txt_loger,*,country, language, proxy=None, keys_range=(1,5
                     print('#' * len(links))
         except TimeoutException as error:
             print('TimeoutException')
-            raise error
+            DRIVER.quit()
         except FbBlockLibError as error:
             error()
             sleep(10)
