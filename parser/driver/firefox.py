@@ -2,13 +2,21 @@ from selenium import webdriver
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from selenium.webdriver.firefox.options import Options
 from seleniumwire import webdriver as wire_webdriver
+from pathlib import Path
+import os
+from config import config
 
-def get_driver(proxy=None):
+
+curr_file_path = Path(__file__).parent.absolute()
+FIREFOX_PROFILE_DIR_PATH = os.path.join(curr_file_path, 'firefox_profile')
+
+def get_firefox_driver(proxy=None):
     service = webdriver.FirefoxService(
-        service_args=['--profile-root', '.'],
+        service_args=['--profile-root', FIREFOX_PROFILE_DIR_PATH],
     )
     options = Options()
-    # options.add_argument('--headless')
+    if config.get('Driver', 'headless') == 'true':
+        options.add_argument('--headless')
     if proxy:
         seleniumwire_options = {
         'proxy': {
@@ -31,7 +39,7 @@ def get_driver(proxy=None):
     return DRIVER
 
 if __name__ == '__main__':
-    driver = get_driver(
+    driver = get_firefox_driver(
         #proxy='http://kEJANU:AN6rAD6ur3Ca@lu.mobileproxy.space:1249'
     )
     driver.get('https://api.ipify.org?format=html')

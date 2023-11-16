@@ -1,7 +1,7 @@
 import argparse
 from configparser import ConfigParser
 from parser.loger import TxtLogger
-from run_parse import test_driver, run_adslib_parser
+from run_parse import test_driver, run_adslib_parser, get_ip
 from parser.keywords import KeyWord
 
 config_file_path = './conf.ini'
@@ -72,6 +72,17 @@ elif args.command == 'test_proxy':
         test_driver(proxy=proxy)
     else:
         print('Chose proxy for test')
+elif args.command == 'get_ip':
+    if args.proxy:
+        try:
+            proxy = config['Proxy'][args.proxy]
+        except KeyError:
+            print('Incorrect proxy id')
+            exit()
+    else:
+        proxy = None
+        get_ip(proxy=proxy)
+
 else:
     print('Incorrect command')
     print('Available_commands:', list(available_commands.keys()))
