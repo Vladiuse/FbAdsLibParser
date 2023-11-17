@@ -1,8 +1,9 @@
 import re
 import os
 from config import config
+from datetime import datetime
 
-
+PC_NAME = config.get('Pc', 'name')
 def _k(num):
     if num > 1000:
         num = round(num / 1000, 1)
@@ -11,14 +12,18 @@ def _k(num):
 
 
 class TxtLogger:
-    DEFAULT_TXT_LOG_PASS = config.get('Loger', 'log_file_path')
+    TXT_LOG_DIR = config.get('Loger', 'log_dir_path')
+    LOF_FILE_NANE = f'{PC_NAME}_links.txt'
 
-    def __init__(self, log_file_path=None):
-        self.log_file_path = log_file_path if log_file_path else TxtLogger.DEFAULT_TXT_LOG_PASS
+    def __init__(self):
+        self.log_file_path = f'{TxtLogger.TXT_LOG_DIR}/{TxtLogger.LOF_FILE_NANE}'
 
     def log_links_in_file(self, links):
         """Записать ссылки из карточек в лог файл"""
         with open(self.log_file_path, 'a', encoding='utf-8') as file:
+            current_time = datetime.now().strftime('%H:%M:%S')
+            head = f'\n##### Links count: {len(links)}, Time: {current_time}\n'
+            file.write(head)
             for link in links:
                 file.write(link + '\n')
 
@@ -58,6 +63,9 @@ class TxtLogger:
         total_links_count = len(links)
         unique_links_count = len(set(links))
         unique_percent = round(unique_links_count / total_links_count * 100)
-        print('\nFile: ', os.path.basename(self.log_file_path))
+
+        print('\n')
+        print(PC_NAME)
+        print('File: ', os.path.basename(self.log_file_path))
         print(f'Total: {_k(total_links_count)}')
         print(f'Unique: {_k(unique_links_count)} ({unique_percent}%)')

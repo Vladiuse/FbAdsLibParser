@@ -70,6 +70,7 @@ class FbAdsLibParser:
     # TODo добавить голосовое сколько прошло времени - час два (мб нужно будет менять айпи)
 
     def open_main(self):
+        print('Open main')
         try:
             self.driver.get(FbAdsLibUrl.FB_ADSLIB_MAIN_PAGE)
         except TimeoutException as error:
@@ -77,6 +78,7 @@ class FbAdsLibParser:
             print('TimeOut')
 
     def open_lib(self, *,q, country,**kwargs):
+        print(f'Open key: {q}')
         fb_lib_url = FbAdsLibUrl(q=q, country=country,**kwargs).url
         try:
             self.driver.get(fb_lib_url)
