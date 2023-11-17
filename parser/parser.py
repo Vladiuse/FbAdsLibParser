@@ -2,6 +2,7 @@ import os
 from selenium import webdriver
 from requests.models import PreparedRequest
 from time import sleep
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from .cards import CardSearch
 import time
@@ -69,11 +70,19 @@ class FbAdsLibParser:
     # TODo добавить голосовое сколько прошло времени - час два (мб нужно будет менять айпи)
 
     def open_main(self):
-        self.driver.get(FbAdsLibUrl.FB_ADSLIB_MAIN_PAGE)
+        try:
+            self.driver.get(FbAdsLibUrl.FB_ADSLIB_MAIN_PAGE)
+        except TimeoutException as error:
+            print(error)
+            print('TimeOut')
 
     def open_lib(self, *,q, country,**kwargs):
         fb_lib_url = FbAdsLibUrl(q=q, country=country,**kwargs).url
-        self.driver.get(fb_lib_url)
+        try:
+            self.driver.get(fb_lib_url)
+        except TimeoutException as error:
+            print(error)
+            print('TimeOut')
 
     def open_my_ip(self):
         self.driver.get('https://2ip.ru/')

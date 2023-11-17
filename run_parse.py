@@ -15,22 +15,22 @@ pinger = Pinger()
 
 
 def run_adslib_parser(txt_loger,*,country, language, proxy=None, keys_range=(1,500)):
-    print('*'*30)
+    print('\n','*'*30)
     print('PC:', config.get('Pc', 'name'))
     print('Country:',country, )
-    print('Language', language)
+    print('Language:', language)
     print('Proxy:', proxy if proxy else '-')
     print('KeyRange:', keys_range)
     print('*'*30, end='\n\n')
     key_words = KeyWord()
     DRIVER = get_driver(proxy=proxy)
     fb_adslib_parser = FbAdsLibParser(DRIVER)
-    print('Start open main')
+    print('Open main')
     fb_adslib_parser.open_main()
     pinger()
     while True:
         key = key_words.get_key(language=language, range=keys_range)
-        print('Start open key', key)
+        print('Open key', key)
         fb_adslib_parser.open_lib(q=key, country=country)
         try:
             for links in fb_adslib_parser.parse():
@@ -48,19 +48,16 @@ def run_adslib_parser(txt_loger,*,country, language, proxy=None, keys_range=(1,5
                         cprint('#' * len(links), color='red')
                 else:
                     print('#' * len(links))
-        except TimeoutException as error:
-            print('TimeoutException')
-            DRIVER.quit()
-            exit()
+        except (MaxWaitCardLoadError, NoLoadCardBtnError) as error:
+            print(key, '\n', error)
+            error()
         except FbBlockLibError as error:
             error()
             sleep(10)
             DRIVER.quit()
             exit()
-        except (MaxWaitCardLoadError, NoLoadCardBtnError) as error:
-            print(key, '\n', error)
-            error()
         except Exception as error:
+            print('Exception\nException\nException\n')
             print(key, '\n', error)
             CriticalError()()
             DRIVER.quit()
