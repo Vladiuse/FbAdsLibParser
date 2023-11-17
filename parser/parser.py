@@ -70,6 +70,7 @@ class FbAdsLibParser:
     # TODo добавить голосовое сколько прошло времени - час два (мб нужно будет менять айпи)
 
     def open_main(self):
+        """Открыть главную страницу библиотеки"""
         print('Open main')
         try:
             self.driver.get(FbAdsLibUrl.FB_ADSLIB_MAIN_PAGE)
@@ -77,7 +78,17 @@ class FbAdsLibParser:
             print(error)
             print('TimeOut')
 
+    def open_change_proxy_ip_url(self, url):
+        """Открыть страницу смены айпи прокси"""
+        print('Open proxyCIU')
+        try:
+            self.driver.get(url)
+        except TimeoutException as error:
+            print(error)
+            print('TimeOut')
+
     def open_lib(self, *,q, country,**kwargs):
+        """Открыть страницу с карточками"""
         print(f'Open key: {q}')
         fb_lib_url = FbAdsLibUrl(q=q, country=country,**kwargs).url
         try:
@@ -88,7 +99,6 @@ class FbAdsLibParser:
 
     def open_my_ip(self):
         self.driver.get('https://2ip.ru/')
-
 
     def remove_all_cards(self):
         """Удалить все карточки со страницы"""
@@ -183,3 +193,5 @@ document.head.appendChild(styleNoMedia)
                 raise FbBlockLibError
         except NoSuchElementException:
             pass
+
+    # TODO is cards exists on page

@@ -14,14 +14,17 @@ GLOBAL_ERRORS_LIMIT = 2
 pinger = Pinger()
 
 
-def run_adslib_parser(txt_loger,*,country, language, proxy=None, keys_range=(1,500)):
+def run_adslib_parser(txt_loger,*,country, language, keys_range=(1,500),
+                      proxy=None, proxy_change_ip_url=None,
+                      ):
     print('\n')
     print('*'*30)
     print('PC:', config.get('Pc', 'name'))
     print('Country:',country, )
     print('Language:', language)
-    print('Proxy:', proxy if proxy else '-')
     print('KeyRange:', keys_range)
+    print('Proxy:', proxy if proxy else '-')
+    print('ProxyCIU:', proxy_change_ip_url if proxy_change_ip_url else '-')
     print('*'*30, end='\n\n')
 
     key_words = KeyWord()
@@ -53,6 +56,8 @@ def run_adslib_parser(txt_loger,*,country, language, proxy=None, keys_range=(1,5
             error()
         except FbBlockLibError as error:
             error()
+            if proxy:
+                fb_adslib_parser.open_change_proxy_ip_url(proxy_change_ip_url)
             sleep(10)
             DRIVER.quit()
             exit()
