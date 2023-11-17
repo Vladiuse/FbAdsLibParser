@@ -57,6 +57,7 @@ class FbAdsLibUrl:
     def url(self):
         return self._prepare_url()
 
+
 class FbAdsLibParser:
 
     def __init__(self, driver):
@@ -74,15 +75,6 @@ class FbAdsLibParser:
         print('Open main')
         try:
             self.driver.get(FbAdsLibUrl.FB_ADSLIB_MAIN_PAGE)
-        except TimeoutException as error:
-            print(error)
-            print('TimeOut')
-
-    def open_change_proxy_ip_url(self, url):
-        """Открыть страницу смены айпи прокси"""
-        print('Open proxyCIU')
-        try:
-            self.driver.get(url)
         except TimeoutException as error:
             print(error)
             print('TimeOut')

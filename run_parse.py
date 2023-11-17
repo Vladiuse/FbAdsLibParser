@@ -8,6 +8,7 @@ from parser.pinger import Pinger
 from bs4 import BeautifulSoup
 from config import config
 from print_color import print as cprint
+from parser import change_proxy_ip
 
 
 GLOBAL_ERRORS_LIMIT = 2
@@ -56,17 +57,17 @@ def run_adslib_parser(txt_loger,*,country, language, keys_range=(1,500),
             error()
         except FbBlockLibError as error:
             error()
-            if proxy:
-                fb_adslib_parser.open_change_proxy_ip_url(proxy_change_ip_url)
             sleep(10)
+            if proxy:
+                change_proxy_ip(proxy_change_ip_url)
             DRIVER.quit()
-            exit()
+            return
         except Exception as error:
             print('Exception\nException\nException\n')
             print(key, '\n', error)
             CriticalError()()
             DRIVER.quit()
-            exit()
+            return
 
 
 def test_driver(*,proxy):
