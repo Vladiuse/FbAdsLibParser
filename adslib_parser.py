@@ -4,11 +4,11 @@ from configparser import ConfigParser
 from parser.loger import TxtLogger
 from run_parse import test_driver, run_adslib_parser, get_ip
 from parser.keywords import KeyWord
+from parser import FbAdsLibUrl
 
 config_file_path = './conf.ini'
 config = ConfigParser()
 config.read(config_file_path)
-
 
 parser = argparse.ArgumentParser(description='xxxx')
 parser.add_argument('command', type=str, help='Запуск команды')
@@ -17,13 +17,13 @@ parser.add_argument('-country', type=str, default=None, help='Countryd')
 parser.add_argument('-language', type=str, default=None, help='Language of keywords')
 
 
-def run_parser(*args,**kwargs):
+def run_parser(*args, **kwargs):
     print('RUN PARSER')
     print(args)
     print(kwargs)
 
 
-def run_logee(*args,**kwargs):
+def run_logee(*args, **kwargs):
     print('RUN loger')
     print(args)
     print(kwargs)
@@ -58,19 +58,25 @@ if args.command == 'parse':
     else:
         proxy = None
         proxy_change_ip_url = None
+    active_status = config.get('AdsLibParser', 'active_status')
+    if active_status == 'true':
+        active_status = FbAdsLibUrl.ACTIVE
+    else:
+        active_status = FbAdsLibUrl.INACTIVE
 
     if not INFINITY:
-        run_adslib_parser(txt_loger, country=country, language=language,   keys_range=(start_key, end_key),
-                      proxy=proxy,proxy_change_ip_url=proxy_change_ip_url,
-
-                )
+        run_adslib_parser(txt_loger, country=country, language=language,
+                          active_status=active_status, keys_range=(start_key, end_key),
+                          proxy=proxy, proxy_change_ip_url=proxy_change_ip_url,
+                          )
     else:
         loop_count = 0
         while True:
             loop_count += 1
             print(f'InFY loop #{loop_count}')
             try:
-                run_adslib_parser(txt_loger, country=country, language=language, keys_range=(start_key, end_key),
+                run_adslib_parser(txt_loger, country=country, language=language,
+                                  active_status=active_status,keys_range=(start_key, end_key),
                                   proxy=proxy, proxy_change_ip_url=proxy_change_ip_url,
                                   )
             except Exception as error:
@@ -106,7 +112,3 @@ elif args.command == 'get_ip':
 else:
     print('Incorrect command')
     print('Available_commands:', list(available_commands.keys()))
-
-
-
-

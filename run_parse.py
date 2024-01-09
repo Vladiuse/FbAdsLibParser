@@ -15,7 +15,7 @@ GLOBAL_ERRORS_LIMIT = 2
 pinger = Pinger()
 
 
-def run_adslib_parser(txt_loger,*,country, language, keys_range=(1,500),
+def run_adslib_parser(txt_loger,*,country, language, active_status,keys_range=(1,500),
                       proxy=None, proxy_change_ip_url=None,
                       ):
     print('\n')
@@ -26,6 +26,7 @@ def run_adslib_parser(txt_loger,*,country, language, keys_range=(1,500),
     print('KeyRange:', keys_range)
     print('Proxy:', proxy if proxy else '-')
     print('ProxyCIU:', proxy_change_ip_url if proxy_change_ip_url else '-')
+    print('Active status', active_status)
     print('*'*30, end='\n\n')
 
     key_words = KeyWord()
@@ -35,7 +36,7 @@ def run_adslib_parser(txt_loger,*,country, language, keys_range=(1,500),
     pinger()
     while True:
         key = key_words.get_key(language=language, range=keys_range)
-        fb_adslib_parser.open_lib(q=key, country=country)
+        fb_adslib_parser.open_lib(q=key, country=country, active_status=active_status)
         try:
             for links in fb_adslib_parser.parse():
                 txt_loger.log_links_in_file(links)

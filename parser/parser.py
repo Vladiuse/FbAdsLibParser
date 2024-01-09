@@ -19,8 +19,11 @@ NEXT_KEY = """
 
 class FbAdsLibUrl:
     FB_ADSLIB_MAIN_PAGE = 'https://web.facebook.com/ads/library'
+    ACTIVE = 'active'
+    INACTIVE = 'inactive'
+    ACTIVE_STATUS = (ACTIVE, INACTIVE)
 
-    URL_PARAMS = {'active_status': 'active',
+    URL_PARAMS = {'active_status': None,
                   # 'ad_type': 'political_and_issue_ads',
                   'ad_type': 'all',
                   'country': None,
@@ -36,15 +39,18 @@ class FbAdsLibUrl:
 
     FB_LIB_URL = 'https://www.facebook.com/ads/library/'
 
-    def __init__(self, *, q, country, start_date=None):
+    def __init__(self, *, q, country, start_date=None, active_status=ACTIVE):
         self.q = q
         self.country = country
         self.start_date = start_date if start_date else str(datetime.now().date() - timedelta(days=1))
+        self.active_status = active_status
+        print(self.active_status, 'xxx')
 
     def _get_params(self):
         params = self.URL_PARAMS
         params['q'] = self.q
         params['country'] = self.country
+        params['active_status'] = self.active_status
         params['start_date[min]'] = self.start_date
         return params
 
@@ -79,10 +85,10 @@ class FbAdsLibParser:
             print(error)
             print('TimeOut')
 
-    def open_lib(self, *,q, country,**kwargs):
+    def open_lib(self, *,q, country,active_status,**kwargs):
         """Открыть страницу с карточками"""
         print(f'Open key: {q}')
-        fb_lib_url = FbAdsLibUrl(q=q, country=country,**kwargs).url
+        fb_lib_url = FbAdsLibUrl(q=q, country=country,active_status=active_status,**kwargs).url
         try:
             self.driver.get(fb_lib_url)
         except TimeoutException as error:
