@@ -85,9 +85,9 @@ class FbAdsLibParser:
             print(error)
             print('TimeOut')
 
-    def open_lib(self, *,q, country,active_status,**kwargs):
+    def open_lib(self, *,q, number_in_dict,country,active_status,**kwargs):
         """Открыть страницу с карточками"""
-        print(f'Open key: {q}')
+        print(f'Open key: {q} ({number_in_dict})')
         fb_lib_url = FbAdsLibUrl(q=q, country=country,active_status=active_status,**kwargs).url
         try:
             self.driver.get(fb_lib_url)

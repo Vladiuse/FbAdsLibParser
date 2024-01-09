@@ -35,15 +35,15 @@ def run_adslib_parser(txt_loger,*,country, language, active_status,keys_range=(1
     fb_adslib_parser.open_main()
     pinger()
     while True:
-        key = key_words.get_key(language=language, range=keys_range)
-        fb_adslib_parser.open_lib(q=key, country=country, active_status=active_status)
+        key,number_in_dict = key_words.get_key(language=language, range=keys_range)
+        fb_adslib_parser.open_lib(q=key,number_in_dict=number_in_dict, country=country, active_status=active_status)
         try:
             for links in fb_adslib_parser.parse():
                 txt_loger.log_links_in_file(links)
                 pinger()
                 current_time = datetime.now().strftime('%H:%M:%S')
                 links_len = len(links)
-                print(f'Links: {links_len}, Key: {key},','Time:', current_time)
+                print(f'Links: {links_len}, Key: {key} ({number_in_dict}),','Time:', current_time)
                 if config.get('AdsLibParser', 'show_colors'):
                     if links_len > 25:
                         cprint('#' * len(links), color='green')
