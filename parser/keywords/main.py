@@ -22,7 +22,7 @@ class KeyWord:
         cursor.execute(command)
         row = cursor.fetchone()
         pk, word, lang, number_in_dict = row
-        return word,number_in_dict
+        return 'dasdasdasdas',number_in_dict
 
     def keys_stat(self):
         con = sqlite3.connect(self.db_path)

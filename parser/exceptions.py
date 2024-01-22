@@ -97,9 +97,21 @@ class CriticalError(ParserError):
     TEXT_COLOR = 'red'
 
 
+class FbLibEmptyQuery(ParserError):
+    TEXT = """
+    #####################
+    #                   #
+    #    EMPTY QUERY    #
+    #                   #
+    ##################### 
+    """
+    error_sound_path = 'empty_query.mp3'
+    TEXT_COLOR = 'yellow'
+
+
 if __name__ == '__main__':
     # try:
     #     raise FbBlockLibError
     # except FbBlockLibError as error:
     #     error()
-    FbBlockLibError()()
+    FbLibEmptyQuery()()

@@ -3,6 +3,7 @@ from selenium import webdriver
 from requests.models import PreparedRequest
 from time import sleep
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 from .cards import CardSearch
 import time
 from selenium.common.exceptions import NoSuchElementException
@@ -43,7 +44,6 @@ class FbAdsLibUrl:
         self.country = country
         self.start_date = start_date if start_date else str(datetime.now().date() - timedelta(days=1))
         self.active_status = active_status
-        print(self.active_status, 'xxx')
 
     def _get_params(self):
         params = self.URL_PARAMS
@@ -121,6 +121,7 @@ load_new_button.click()
             if time.time() - start > FbAdsLibParser.NEW_CARDS_BNT_WAIT:
                 raise NoLoadCardBtnError
             self._is_fb_block_loading()
+            self._is_query_have_no_result_block_exist()
             sleep(1)  # 1 is old value
             if self.cards_count():  # не кликать кнопку - если карточки стали загружаться автоматически
                 return
@@ -170,6 +171,7 @@ document.head.appendChild(styleNoMedia)
         start = time.time()
         while True:
             self._is_fb_block_loading()
+            self._is_query_have_no_result_block_exist()
             cards_count = self.cards_count()
             if cards_count:
                 sleep(0.5)
@@ -192,3 +194,12 @@ document.head.appendChild(styleNoMedia)
             pass
 
     # TODO is cards exists on page
+    def _is_query_have_no_result_block_exist(self):
+        """Проверить нет ли блока, говоряещего о том что по запросу ничего не найдено"""
+        try:
+            info_block = self.driver.find_element(By.CSS_SELECTOR,
+                                             'div.x2b8uid.x1p5oq8j.xr1yuqi.xkrivgy.x4ii5y1.x1gryazu.x1gfrnbc.x1lliihq')
+            if info_block:
+                raise FbLibEmptyQuery
+        except NoSuchElementException:
+            pass

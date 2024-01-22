@@ -3,7 +3,7 @@ from time import sleep, time
 from parser import get_driver, FbAdsLibParser
 from parser.keywords import KeyWord
 from selenium.common.exceptions import TimeoutException
-from parser.exceptions import FbBlockLibError, MaxWaitCardLoadError, NoLoadCardBtnError, CriticalError
+from parser.exceptions import FbBlockLibError, MaxWaitCardLoadError, NoLoadCardBtnError, CriticalError, FbLibEmptyQuery
 from parser.pinger import Pinger
 from bs4 import BeautifulSoup
 from config import config
@@ -54,6 +54,9 @@ def run_adslib_parser(txt_loger,*,country, language, active_status,keys_range=(1
                 else:
                     print('#' * len(links))
         except (MaxWaitCardLoadError, NoLoadCardBtnError) as error:
+            print(key, '\n', error)
+            error()
+        except FbLibEmptyQuery as error:
             print(key, '\n', error)
             error()
         except FbBlockLibError as error:
