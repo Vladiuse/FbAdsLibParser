@@ -5,6 +5,7 @@ from parser.loger import TxtLogger
 from run_parse import test_driver, run_adslib_parser, get_ip
 from parser.keywords import KeyWord
 from parser import FbAdsLibUrl
+from datetime import datetime, timedelta
 
 config_file_path = './conf.ini'
 config = ConfigParser()
@@ -48,6 +49,8 @@ if args.command == 'parse':
         language = args.language
     start_key = config.get('KeyWord', 'start_key')
     end_key = config.get('KeyWord', 'end_key')
+    start_date_age = config.get('KeyWord', 'start_days_ago')
+    start_date = str(datetime.now().date() - timedelta(days=int(start_date_age)))
     if args.proxy:
         try:
             proxy = config['Proxy'][args.proxy]
@@ -67,7 +70,7 @@ if args.command == 'parse':
     if not INFINITY:
         run_adslib_parser(txt_loger, country=country, language=language,
                           active_status=active_status, keys_range=(start_key, end_key),
-                          proxy=proxy, proxy_change_ip_url=proxy_change_ip_url,
+                          proxy=proxy, proxy_change_ip_url=proxy_change_ip_url,start_date=start_date
                           )
     else:
         loop_count = 0
@@ -77,7 +80,7 @@ if args.command == 'parse':
             try:
                 run_adslib_parser(txt_loger, country=country, language=language,
                                   active_status=active_status,keys_range=(start_key, end_key),
-                                  proxy=proxy, proxy_change_ip_url=proxy_change_ip_url,
+                                  proxy=proxy, proxy_change_ip_url=proxy_change_ip_url,start_date=start_date
                                   )
             except Exception as error:
                 print(error)
