@@ -3,7 +3,8 @@ import os
 from config import config
 from datetime import datetime
 
-PC_NAME = config.get('Pc', 'name')
+PC_NAME = config.get('Pc', 'name').upper()
+COUNTRY = config.get('KeyWord', 'country').upper()
 def _k(num):
     if num > 1000:
         num = round(num / 1000, 1)
@@ -13,7 +14,7 @@ def _k(num):
 
 class TxtLogger:
     TXT_LOG_DIR = config.get('Loger', 'log_dir_path')
-    LOF_FILE_NANE = f'{PC_NAME}_links.txt'
+    LOF_FILE_NANE = f'{PC_NAME}_{COUNTRY}_links.txt'
 
     def __init__(self):
         self.log_file_path = f'{TxtLogger.TXT_LOG_DIR}/{TxtLogger.LOF_FILE_NANE}'
