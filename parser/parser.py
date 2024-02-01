@@ -165,6 +165,7 @@ document.head.appendChild(styleNoMedia)
             yield links
             self.remove_all_cards()
             self.click_load_new_cards()
+            self._clear_funcs()
 
     def _wait_cards_load(self):
         """Ждать появления карточек"""
@@ -203,3 +204,9 @@ document.head.appendChild(styleNoMedia)
                 raise FbLibEmptyQuery
         except NoSuchElementException:
             pass
+
+    def _clear_funcs(self):
+        self.driver.delete_all_cookies()
+        self.driver.execute_script('window.localStorage.clear()')
+        self.driver.execute_script('window.sessionStorage.clear()')
+        print('****CLEAR****')
