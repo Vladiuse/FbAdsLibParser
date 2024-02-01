@@ -4,13 +4,17 @@ from config import config
 
 
 def get_chrome_driver(*,proxy=None):
-    options = webdriver.ChromeOptions()
-
+    chrome_options = webdriver.ChromeOptions()
+    if config.get('Driver', 'headless') == 'true':
+        chrome_options.add_argument('--headless')
+    if config.get('Driver', 'no_sandbox') == 'true':
+        chrome_options.add_argument('--no-sandbox')
+    if config.get('Driver', 'no_load_images') == 'true':
+        chrome_options.add_argument('--blink-settings=imagesEnabled=false')
     if not proxy:
-        if config.get('Driver', 'headless') == 'true':
-            options.add_argument('--headless')
+
         DRIVER = webdriver.Chrome(
-            options=options,
+            options=chrome_options,
         )
         DRIVER.maximize_window()
     else:
@@ -19,12 +23,6 @@ def get_chrome_driver(*,proxy=None):
                 'https':proxy,
         	}
         }
-
-        chrome_options = webdriver.ChromeOptions()
-        if config.get('Driver', 'headless') == 'true':
-            chrome_options.add_argument('--headless')
-        if config.get('Driver', 'no_sandbox') == 'true':
-            chrome_options.add_argument('--no-sandbox')
         DRIVER = webdriver_wire.Chrome(
             seleniumwire_options=options,
             options=chrome_options,
