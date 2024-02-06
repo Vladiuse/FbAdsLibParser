@@ -35,6 +35,18 @@ def run_adslib_parser(txt_loger,*,country, language, active_status,keys_range=(1
     fb_adslib_parser = FbAdsLibParser(DRIVER)
     fb_adslib_parser.open_main()
     while True:
+        #  Change Tab
+        fb_adslib_parser.driver.execute_script("window.open('', '_blank')")
+        sleep(1)
+        tabs = fb_adslib_parser.driver.window_handles
+        old_tab = tabs[0]
+        fb_adslib_parser.driver.switch_to.window(old_tab)
+        sleep(0.3)
+        fb_adslib_parser.driver.close()
+        tabs = fb_adslib_parser.driver.window_handles
+        new_tab = tabs[0]
+        fb_adslib_parser.driver.switch_to.window(new_tab)
+        #  Change Tab
         key,number_in_dict = key_words.get_key(language=language, range=keys_range)
         fb_adslib_parser.open_lib(q=key,
                                   number_in_dict=number_in_dict,
