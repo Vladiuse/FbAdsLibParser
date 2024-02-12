@@ -69,8 +69,11 @@ def run_adslib_parser(txt_loger,*,country, language, active_status,keys_range=(1
             sleep(10)
             if proxy:
                 change_proxy_ip(proxy_change_ip_url)
-            DRIVER.quit()
-            return
+                DRIVER.quit()
+                return
+            else:
+                DRIVER.quit()
+                exit()
         except Exception as error:
             print('Exception\nException\nException\n')
             print(key, '\n', error)
