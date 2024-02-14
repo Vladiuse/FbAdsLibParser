@@ -85,7 +85,7 @@ if args.command == 'parse':
             except Exception as error:
                 print(error)
                 print('LOOP EXCEPTION')
-            sleep(60)
+            sleep(10) # TODDO add in config
 elif args.command == 'parse_stat':
     txt_loger.log_file_stat()
 
