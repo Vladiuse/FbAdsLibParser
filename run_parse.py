@@ -31,10 +31,12 @@ def run_adslib_parser(txt_loger,*,country, language, active_status,keys_range=(1
     print('*'*30, end='\n\n')
 
     key_words = KeyWord()
-    DRIVER = get_driver(proxy=proxy)
-    fb_adslib_parser = FbAdsLibParser(DRIVER)
-    fb_adslib_parser.open_main()
+    # DRIVER = get_driver(proxy=proxy)
+    # fb_adslib_parser = FbAdsLibParser(DRIVER)
+    # fb_adslib_parser.open_main()
     while True:
+        DRIVER = get_driver(proxy=proxy)
+        fb_adslib_parser = FbAdsLibParser(DRIVER)
         key,number_in_dict = key_words.get_key(language=language, range=keys_range)
         fb_adslib_parser.open_lib(q=key,
                                   number_in_dict=number_in_dict,
@@ -49,12 +51,16 @@ def run_adslib_parser(txt_loger,*,country, language, active_status,keys_range=(1
         except (MaxWaitCardLoadError, NoLoadCardBtnError) as error:
             print(key, '\n', error)
             error()
+            DRIVER.quit()
+            return
         except FbLibEmptyQuery as error:
             print(key, '\n', error)
             error()
+            DRIVER.quit()
+            return
         except FbBlockLibError as error:
             error()
-            sleep(10)
+            sleep(5)
             if proxy:
                 change_proxy_ip(proxy_change_ip_url)
                 DRIVER.quit()
