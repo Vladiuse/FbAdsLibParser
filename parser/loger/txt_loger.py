@@ -23,8 +23,8 @@ class TxtLogger:
         """Записать ссылки из карточек в лог файл"""
         with open(self.log_file_path, 'a', encoding='utf-8') as file:
             current_time = datetime.now().strftime('%H:%M:%S')
-            head = f'\n##### Links count: {len(links)}, Time: {current_time}\n'
-            file.write(head)
+            # head = f'\n##### Links count: {len(links)}, Time: {current_time}\n'
+            # file.write(head)
             for link in links:
                 file.write(link + '\n')
 
