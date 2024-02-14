@@ -44,20 +44,8 @@ def run_adslib_parser(txt_loger,*,country, language, active_status,keys_range=(1
                                   )
         try:
             for links in fb_adslib_parser.parse():
-                txt_loger.log_links_in_file(links)
+                txt_loger.log_links_in_file(links, key,number_in_dict)
                 pinger()
-                current_time = datetime.now().strftime('%H:%M:%S')
-                links_len = len(links)
-                print(f'Links: {links_len}, Key: {key} ({number_in_dict}),','Time:', current_time)
-                if config.get('AdsLibParser', 'show_colors'):
-                    if links_len > 25:
-                        cprint('#' * len(links), color='green')
-                    elif links_len >= 10:
-                        cprint('#' * len(links), color='yellow')
-                    else:
-                        cprint('#' * len(links), color='red')
-                else:
-                    print('#' * len(links))
         except (MaxWaitCardLoadError, NoLoadCardBtnError) as error:
             print(key, '\n', error)
             error()

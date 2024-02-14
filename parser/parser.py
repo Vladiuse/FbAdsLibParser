@@ -115,7 +115,7 @@ load_new_button.click()
                 """)
 
     def click_load_new_cards(self):
-        print('click_load_new_cards')
+        # print('click_load_new_cards')
         start = time.time()
         """ожидать кнопку загрузки новыз карточек"""
         while True:
@@ -168,7 +168,7 @@ document.head.appendChild(styleNoMedia)
             self.click_load_new_cards()
 
     def _wait_cards_load(self):
-        print('_wait_cards_load')
+        # print('_wait_cards_load')
         """Ждать появления карточек"""
         start = time.time()
         while True:
