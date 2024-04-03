@@ -20,7 +20,7 @@ class Country:
 
 
 def load_countries():
-    with open(countries_data_file_path) as file:
+    with open(countries_data_file_path, encoding='utf-8') as file:
         data = json.load(file)
     countries = dict()
     for iso_code, item in data.items():
