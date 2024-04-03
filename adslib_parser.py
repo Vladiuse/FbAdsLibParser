@@ -81,16 +81,8 @@ if args.command == 'parse':
                               active_status=active_status, keys_range=(start_key, end_key),
                               proxy=proxy, proxy_change_ip_url=proxy_change_ip_url, start_date=start_date
                               )
-            sleep(60)
-            # try:
-            #     run_adslib_parser(txt_loger, country=country, language=language,
-            #                       active_status=active_status,keys_range=(start_key, end_key),
-            #                       proxy=proxy, proxy_change_ip_url=proxy_change_ip_url,start_date=start_date
-            #                       )
-            # except Exception as error:
-            #     print(error)
-            #     print('LOOP EXCEPTION')
-            # sleep(60)
+            sleep(10)
+
 elif args.command == 'parse_stat':
     txt_loger.log_file_stat()
 

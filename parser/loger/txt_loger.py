@@ -22,7 +22,7 @@ class TxtLogger:
 
     def log_links_in_file(self, links, url:FbAdsLibUrl):
         from settings import COUNTRY
-        LOF_FILE_NANE = f'{PC_NAME}_{COUNTRY}_links.txt'
+        LOF_FILE_NANE = f'{PC_NAME}_{COUNTRY.iso}_links.txt'
         self.log_file_path = f'{TxtLogger.TXT_LOG_DIR}/{LOF_FILE_NANE}'
         """Записать ссылки из карточек в лог файл"""
         with open(self.log_file_path, 'a', encoding='utf-8') as file:

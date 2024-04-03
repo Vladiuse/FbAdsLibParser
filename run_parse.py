@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from time import sleep, time
 from parser import get_driver, FbAdsLibParser
 from parser.keywords import KeyWord
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, WebDriverException
 from parser.exceptions import FbBlockLibError, MaxWaitCardLoadError, NoLoadCardBtnError, CriticalError, FbLibEmptyQuery
 from parser.pinger import Pinger
 from bs4 import BeautifulSoup
@@ -44,14 +44,17 @@ def run_adslib_parser(txt_loger,*,country, language, active_status,keys_range=(1
         set_country(fblib_url.country)
         try:
             for links in fb_adslib_parser.parse():
-                txt_loger.log_links_in_file(links, key,number_in_dict)
+                txt_loger.log_links_in_file(links,fblib_url)
                 pinger()
-        except (MaxWaitCardLoadError, NoLoadCardBtnError, FbLibEmptyQuery) as error:
-            print(key, '\n', error)
+        except (MaxWaitCardLoadError, NoLoadCardBtnError) as error:
+            print( error)
             error()
             if DROP_DRIVER:
                 DRIVER.quit()
                 break
+        except FbLibEmptyQuery as error:
+            print(error)
+            error()
         except FbBlockLibError as error:
             error()
             DRIVER.quit()
@@ -61,9 +64,9 @@ def run_adslib_parser(txt_loger,*,country, language, active_status,keys_range=(1
                 break
             else:
                 exit()
-        except Exception as error:
-            print('Exception\nException\nException\n')
-            print(key, '\n', error)
+        except WebDriverException as error:
+            print('WebDriverException\nWebDriverException\nWebDriverException\n')
+            print(error)
             CriticalError()()
             DRIVER.quit()
             break
