@@ -9,26 +9,28 @@ from bs4 import BeautifulSoup
 from config import config
 from print_color import print as cprint
 from parser import change_proxy_ip
+from parser.fbadslib_url import get_random_url
+from settings import set_country
 
 
 GLOBAL_ERRORS_LIMIT = 2
 pinger = Pinger()
 
-
+DROP_DRIVER = True if config.get('Driver', 'drop_driver_key') == 'true' else False
 def run_adslib_parser(txt_loger,*,country, language, active_status,keys_range=(1,500),
                       proxy=None, proxy_change_ip_url=None,start_date=None,
                       ):
-    print('\n')
-    print('*'*30)
-    print('PC:', config.get('Pc', 'name'))
-    print('Country:',country, )
-    print('Language:', language)
-    print('KeyRange:', keys_range)
-    print('Proxy:', proxy if proxy else '-')
-    print('ProxyCIU:', proxy_change_ip_url if proxy_change_ip_url else '-')
-    print('Active status:', active_status)
-    print('Start date:',)
-    print('*'*30, end='\n\n')
+    # print('\n')
+    # print('*'*30)
+    # print('PC:', config.get('Pc', 'name'))
+    # print('Country:',country, )
+    # print('Language:', language)
+    # print('KeyRange:', keys_range)
+    # print('Proxy:', proxy if proxy else '-')
+    # print('ProxyCIU:', proxy_change_ip_url if proxy_change_ip_url else '-')
+    # print('Active status:', active_status)
+    # print('Start date:',)
+    # print('*'*30, end='\n\n')
 
     key_words = KeyWord()
     DRIVER = get_driver(proxy=proxy)
@@ -36,38 +38,35 @@ def run_adslib_parser(txt_loger,*,country, language, active_status,keys_range=(1
     fb_adslib_parser.open_main()
     while True:
         key,number_in_dict = key_words.get_key(language=language, range=keys_range)
-        fb_adslib_parser.open_lib(q=key,
-                                  number_in_dict=number_in_dict,
-                                  country=country,
-                                  active_status=active_status,
-                                  start_date=start_date,
-                                  )
+        fblib_url = get_random_url()
+        print(repr(fblib_url))
+        fb_adslib_parser.open_lib(str(fblib_url))
+        set_country(fblib_url.country)
         try:
             for links in fb_adslib_parser.parse():
                 txt_loger.log_links_in_file(links, key,number_in_dict)
                 pinger()
-        except (MaxWaitCardLoadError, NoLoadCardBtnError) as error:
+        except (MaxWaitCardLoadError, NoLoadCardBtnError, FbLibEmptyQuery) as error:
             print(key, '\n', error)
             error()
-        except FbLibEmptyQuery as error:
-            print(key, '\n', error)
-            error()
+            if DROP_DRIVER:
+                DRIVER.quit()
+                break
         except FbBlockLibError as error:
             error()
-            sleep(10)
+            DRIVER.quit()
             if proxy:
+                sleep(10)
                 change_proxy_ip(proxy_change_ip_url)
-                DRIVER.quit()
-                return
+                break
             else:
-                DRIVER.quit()
                 exit()
         except Exception as error:
             print('Exception\nException\nException\n')
             print(key, '\n', error)
             CriticalError()()
             DRIVER.quit()
-            return
+            break
 
 
 def test_driver(*,proxy):
