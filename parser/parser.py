@@ -10,6 +10,8 @@ from selenium.common.exceptions import NoSuchElementException
 from datetime import datetime, timedelta
 from .exceptions import *
 from config import config
+from .fbadslib_url import get_random_url
+from settings import set_country
 
 NEXT_KEY = """
 ##############
@@ -86,10 +88,15 @@ class FbAdsLibParser:
 
     def open_lib(self, *,q, number_in_dict,country,active_status,**kwargs):
         """Открыть страницу с карточками"""
-        print(f'Open key: {q} ({number_in_dict})')
-        fb_lib_url = FbAdsLibUrl(q=q, country=country,active_status=active_status,**kwargs).url
+        # print(f'Open key: {q} ({number_in_dict})')
+        # fb_lib_url = FbAdsLibUrl(q=q, country=country,active_status=active_status,**kwargs).url
+        fb_lib_url = get_random_url()
+        print(repr(fb_lib_url))
+        country = fb_lib_url.country
+        set_country(country.iso)
+        print(str(fb_lib_url))
         try:
-            self.driver.get(fb_lib_url)
+            self.driver.get(str(fb_lib_url))
         except TimeoutException as error:
             print(error)
             print('TimeOut')

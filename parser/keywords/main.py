@@ -1,6 +1,7 @@
 import sqlite3
 import os
 from config import config
+import random as r
 
 
 class KeyWord:
@@ -35,4 +36,11 @@ class KeyWord:
         for row in rows:
             lang, count = row
             print(lang, count)
+
+number_keywords = [str(i) for i in range(10)]
+chars_keywords = ['!', '?', '%', '$']
+
+def get_random_keyword():
+    keywords = number_keywords + chars_keywords
+    return r.choice(keywords)
 

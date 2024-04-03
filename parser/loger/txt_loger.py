@@ -3,9 +3,8 @@ import os
 from config import config
 from datetime import datetime
 from print_color import print as cprint
+from settings import PC_NAME, COUNTRY
 
-PC_NAME = config.get('Pc', 'name').upper()
-COUNTRY = config.get('KeyWord', 'country').upper()
 def _k(num):
     if num > 1000:
         num = round(num / 1000, 1)
@@ -21,6 +20,9 @@ class TxtLogger:
         self.log_file_path = f'{TxtLogger.TXT_LOG_DIR}/{TxtLogger.LOF_FILE_NANE}'
 
     def log_links_in_file(self, links, key, number_in_dict):
+        from settings import COUNTRY
+        LOF_FILE_NANE = f'{PC_NAME}_{COUNTRY}_links.txt'
+        self.log_file_path = f'{TxtLogger.TXT_LOG_DIR}/{LOF_FILE_NANE}'
         """Записать ссылки из карточек в лог файл"""
         with open(self.log_file_path, 'a', encoding='utf-8') as file:
             current_time = datetime.now().strftime('%H:%M:%S')

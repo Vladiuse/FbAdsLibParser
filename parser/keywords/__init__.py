@@ -1,1 +1,1 @@
-from .main import KeyWord
+from .main import KeyWord, get_random_keyword
