@@ -1,0 +1,487 @@
+{
+    "ae": {
+        "ru_name": "ОАЭ",
+        "population": 9771000,
+        "parse_population_conf": 10
+    },
+    "al": {
+        "ru_name": "Албания",
+        "population": 2845955,
+        "parse_population_conf": 4
+    },
+    "am": {
+        "ru_name": "Армения",
+        "population": 2962100,
+        "parse_population_conf": 4
+    },
+    "ar": {
+        "ru_name": "Аргентина",
+        "population": 46082160,
+        "parse_population_conf": 24
+    },
+    "at": {
+        "ru_name": "Австрия",
+        "population": 8915382,
+        "parse_population_conf": 10
+    },
+    "au": {
+        "ru_name": "Австралия",
+        "population": 26995000,
+        "parse_population_conf": 28
+    },
+    "az": {
+        "ru_name": "Азербайджан",
+        "population": 10119100,
+        "parse_population_conf": 4
+    },
+    "ba": {
+        "ru_name": "Босния и Герцеговина",
+        "population": 3511372,
+        "parse_population_conf": 5
+    },
+    "bd": {
+        "ru_name": "Бангладеш",
+        "population": 169828911,
+        "parse_population_conf": 40
+    },
+    "be": {
+        "ru_name": "Бельгия",
+        "population": 11476279,
+        "parse_population_conf": 12
+    },
+    "bg": {
+        "ru_name": "Болгария",
+        "population": 6951482,
+        "parse_population_conf": 8
+    },
+    "bh": {
+        "ru_name": "Бахрейн",
+        "population": 1451200,
+        "parse_population_conf": 2
+    },
+    "bo": {
+        "ru_name": "Боливия",
+        "population": 11469896,
+        "parse_population_conf": 6
+    },
+    "br": {
+        "ru_name": "Бразилия",
+        "population": 219557180,
+        "parse_population_conf": 110
+    },
+    "ca": {
+        "ru_name": "Канада",
+        "population": 39723570,
+        "parse_population_conf": 40
+    },
+    "ch": {
+        "ru_name": "Швейцария",
+        "population": 8570146,
+        "parse_population_conf": 10
+    },
+    "cl": {
+        "ru_name": "Чили",
+        "population": 19991115,
+        "parse_population_conf": 12
+    },
+    "cn": {
+        "ru_name": "Китай",
+        "population": 1411750000,
+        "parse_population_conf": 40
+    },
+    "co": {
+        "ru_name": "Колумбия",
+        "population": 49258494,
+        "parse_population_conf": 25
+    },
+    "cr": {
+        "ru_name": "Коста-рика",
+        "population": 4953199,
+        "parse_population_conf": 5
+    },
+    "cu": {
+        "ru_name": "Куба",
+        "population": 11333000,
+        "parse_population_conf": 5
+    },
+    "cy": {
+        "ru_name": "Кипр",
+        "population": 875898,
+        "parse_population_conf": 2
+    },
+    "cz": {
+        "ru_name": "Чехия",
+        "population": 10524167,
+        "parse_population_conf": 12
+    },
+    "de": {
+        "ru_name": "Германия",
+        "population": 84270625,
+        "parse_population_conf": 85
+    },
+    "dk": {
+        "ru_name": "Дания",
+        "population": 5762082,
+        "parse_population_conf": 7
+    },
+    "do": {
+        "ru_name": "Доминиканская Республика",
+        "population": 10739000,
+        "parse_population_conf": 6
+    },
+    "dz": {
+        "ru_name": "Алжир",
+        "population": 46653000,
+        "parse_population_conf": 32
+    },
+    "ec": {
+        "ru_name": "Эквадор",
+        "population": 18284910,
+        "parse_population_conf": 10
+    },
+    "ee": {
+        "ru_name": "Эстония",
+        "population": 1328360,
+        "parse_population_conf": 2
+    },
+    "eg": {
+        "ru_name": "Египет",
+        "population": 111390203,
+        "parse_population_conf": 75
+    },
+    "es": {
+        "ru_name": "Испания",
+        "population": 46934632,
+        "parse_population_conf": 48
+    },
+    "fi": {
+        "ru_name": "финляндия",
+        "population": 5526774,
+        "parse_population_conf": 7
+    },
+    "fr": {
+        "ru_name": "Франция",
+        "population": 68959599,
+        "parse_population_conf": 70
+    },
+    "gb": {
+        "ru_name": "Великобритания",
+        "population": 67647112,
+        "parse_population_conf": 69
+    },
+    "ge": {
+        "ru_name": "Грузия",
+        "population": 3736400,
+        "parse_population_conf": 4
+    },
+    "gr": {
+        "ru_name": "Греция",
+        "population": 10482487,
+        "parse_population_conf": 11
+    },
+    "gt": {
+        "ru_name": "Гватемала",
+        "population": 17679735,
+        "parse_population_conf": 10
+    },
+    "hn": {
+        "ru_name": "Гондурас",
+        "population": 9158345,
+        "parse_population_conf": 5
+    },
+    "hr": {
+        "ru_name": "Хорватия",
+        "population": 4076246,
+        "parse_population_conf": 5
+    },
+    "hu": {
+        "ru_name": "Венгрия",
+        "population": 9604000,
+        "parse_population_conf": 11
+    },
+    "id": {
+        "ru_name": "Индонезия",
+        "population": 274900000,
+        "parse_population_conf": 100
+    },
+    "ie": {
+        "ru_name": "Ирландия",
+        "population": 4921500,
+        "parse_population_conf": 6
+    },
+    "il": {
+        "ru_name": "Израиль",
+        "population": 9136000,
+        "parse_population_conf": 10
+    },
+    "in": {
+        "ru_name": "Индия",
+        "population": 1420942000,
+        "parse_population_conf": 80
+    },
+    "iq": {
+        "ru_name": "Ирак",
+        "population": 41310000,
+        "parse_population_conf": 21
+    },
+    "is": {
+        "ru_name": "Исландия",
+        "population": 356991,
+        "parse_population_conf": 2
+    },
+    "it": {
+        "ru_name": "Италия",
+        "population": 58850717,
+        "parse_population_conf": 60
+    },
+    "jm": {
+        "ru_name": "Ямайка",
+        "population": 2726667,
+        "parse_population_conf": 2
+    },
+    "jo": {
+        "ru_name": "Иордания",
+        "population": 11276565,
+        "parse_population_conf": 8
+    },
+    "jp": {
+        "ru_name": "Япония",
+        "population": 124470000,
+        "parse_population_conf": 80
+    },
+    "kh": {
+        "ru_name": "Камбоджа",
+        "population": 15288489,
+        "parse_population_conf": 8
+    },
+    "kr": {
+        "ru_name": "Республика Корея",
+        "population": 51780579,
+        "parse_population_conf": 26
+    },
+    "kw": {
+        "ru_name": "Кувейт",
+        "population": 4207000,
+        "parse_population_conf": 3
+    },
+    "kz": {
+        "ru_name": "Казахстан",
+        "population": 19992289,
+        "parse_population_conf": 10
+    },
+    "la": {
+        "ru_name": "Лаос",
+        "population": 7123205,
+        "parse_population_conf": 4
+    },
+    "lb": {
+        "ru_name": "Ливан",
+        "population": 6856000,
+        "parse_population_conf": 5
+    },
+    "lt": {
+        "ru_name": "Литва",
+        "population": 2790472,
+        "parse_population_conf": 4
+    },
+    "lu": {
+        "ru_name": "Люксембург",
+        "population": 613894,
+        "parse_population_conf": 2
+    },
+    "lv": {
+        "ru_name": "Латвия",
+        "population": 1908100,
+        "parse_population_conf": 3
+    },
+    "ly": {
+        "ru_name": "Ливия",
+        "population": 6777000,
+        "parse_population_conf": 5
+    },
+    "ma": {
+        "ru_name": "Марокко",
+        "population": 37591890,
+        "parse_population_conf": 26
+    },
+    "me": {
+        "ru_name": "Черногория",
+        "population": 622218,
+        "parse_population_conf": 2
+    },
+    "mk": {
+        "ru_name": "Северная Македония",
+        "population": 2077132,
+        "parse_population_conf": 3
+    },
+    "mm": {
+        "ru_name": "Мьянма",
+        "population": 54045000,
+        "parse_population_conf": 28
+    },
+    "mx": {
+        "ru_name": "Мексика",
+        "population": 133649565,
+        "parse_population_conf": 100
+    },
+    "my": {
+        "ru_name": "Малайзия",
+        "population": 34857345,
+        "parse_population_conf": 20
+    },
+    "ni": {
+        "ru_name": "Никарагуа",
+        "population": 6198154,
+        "parse_population_conf": 4
+    },
+    "nl": {
+        "ru_name": "Нидерланды",
+        "population": 17844745,
+        "parse_population_conf": 19
+    },
+    "no": {
+        "ru_name": "Норвегия",
+        "population": 5738800,
+        "parse_population_conf": 7
+    },
+    "np": {
+        "ru_name": "Непал",
+        "population": 29192480,
+        "parse_population_conf": 12
+    },
+    "nz": {
+        "ru_name": "Новая Зеландия",
+        "population": 5153740,
+        "parse_population_conf": 6
+    },
+    "om": {
+        "ru_name": "Оман",
+        "population": 4088690,
+        "parse_population_conf": 3
+    },
+    "pa": {
+        "ru_name": "Панама",
+        "population": 3764166,
+        "parse_population_conf": 2
+    },
+    "pe": {
+        "ru_name": "Перу",
+        "population": 32162184,
+        "parse_population_conf": 16
+    },
+    "ph": {
+        "ru_name": "Филиппины",
+        "population": 113976758,
+        "parse_population_conf": 60
+    },
+    "pk": {
+        "ru_name": "Пакистан",
+        "population": 241499431,
+        "parse_population_conf": 25
+    },
+    "pl": {
+        "ru_name": "Польша",
+        "population": 37749000,
+        "parse_population_conf": 39
+    },
+    "pt": {
+        "ru_name": "Португалия",
+        "population": 10347892,
+        "parse_population_conf": 11
+    },
+    "py": {
+        "ru_name": "Парагвай",
+        "population": 7152703,
+        "parse_population_conf": 4
+    },
+    "qa": {
+        "ru_name": "катар",
+        "population": 2753045,
+        "parse_population_conf": 3
+    },
+    "ro": {
+        "ru_name": "Румыния",
+        "population": 19053815,
+        "parse_population_conf": 20
+    },
+    "sa": {
+        "ru_name": "Саудовская Аравия",
+        "population": 35218169,
+        "parse_population_conf": 30
+    },
+    "se": {
+        "ru_name": "Швеция",
+        "population": 10313447,
+        "parse_population_conf": 11
+    },
+    "sg": {
+        "ru_name": "Сингапур",
+        "population": 5703600,
+        "parse_population_conf": 6
+    },
+    "si": {
+        "ru_name": "Словения",
+        "population": 2134830,
+        "parse_population_conf": 3
+    },
+    "sk": {
+        "ru_name": "Словакия",
+        "population": 5449176,
+        "parse_population_conf": 6
+    },
+    "sv": {
+        "ru_name": "Сальвадор",
+        "population": 6454000,
+        "parse_population_conf": 4
+    },
+    "sy": {
+        "ru_name": "Сирия",
+        "population": 17070000,
+        "parse_population_conf": 9
+    },
+    "th": {
+        "ru_name": "Таиланд",
+        "population": 69760031,
+        "parse_population_conf": 45
+    },
+    "tn": {
+        "ru_name": "Тунис",
+        "population": 11658341,
+        "parse_population_conf": 9
+    },
+    "tr": {
+        "ru_name": "Турция",
+        "population": 85279553,
+        "parse_population_conf": 86
+    },
+    "tw": {
+        "ru_name": "Тайвань (Китай)",
+        "population": 23782448,
+        "parse_population_conf": 25
+    },
+    "us": {
+        "ru_name": "США",
+        "population": 334233854,
+        "parse_population_conf": 335
+    },
+    "uy": {
+        "ru_name": "Уругвай",
+        "population": 3415866,
+        "parse_population_conf": 2
+    },
+    "ve": {
+        "ru_name": "Венесуэла",
+        "population": 34178000,
+        "parse_population_conf": 15
+    },
+    "xk": {
+        "ru_name": "Косово",
+        "population": 1907592,
+        "parse_population_conf": 3
+    },
+    "ye": {
+        "ru_name": "Йемен",
+        "population": 31162000,
+        "parse_population_conf": 10
+    }
+}
