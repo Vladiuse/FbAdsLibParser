@@ -35,7 +35,7 @@ def run_adslib_parser(txt_loger,*,country, language, active_status,keys_range=(1
     key_words = KeyWord()
     DRIVER = get_driver(proxy=proxy)
     fb_adslib_parser = FbAdsLibParser(DRIVER)
-    fb_adslib_parser.open_main()
+    #fb_adslib_parser.open_main()
     while True:
         key,number_in_dict = key_words.get_key(language=language, range=keys_range)
         fblib_url = get_random_url()
