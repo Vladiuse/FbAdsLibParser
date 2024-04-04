@@ -2,6 +2,7 @@ import sqlite3
 import os
 from config import config
 import random as r
+from settings import USE_DOT
 
 
 class KeyWord:
@@ -39,8 +40,13 @@ class KeyWord:
 
 number_keywords = [str(i) for i in range(10)]
 chars_keywords = ['!', '?', '%', '$']
+DOT = '.'
 
 def get_random_keyword():
     keywords = number_keywords + chars_keywords
+    if USE_DOT:
+        if r.randint(0,1):
+            return DOT
     return r.choice(keywords)
+
 
