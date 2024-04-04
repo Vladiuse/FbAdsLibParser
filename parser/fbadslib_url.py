@@ -46,6 +46,8 @@ class FbAdsLibUrl:
         return self._country
     def _check_params(self):
         self._check_media_type_param()
+        self._check_active_status()
+        self._check_dates()
 
     def _check_media_type_param(self):
         if self.media_type not in FbAdsLibUrl.MEDIA_TYPES:
@@ -54,6 +56,20 @@ class FbAdsLibUrl:
     def _check_active_status(self):
         if self.active_status not in FbAdsLibUrl.ACTIVE_STATUS_TYPES:
             raise ValueError('Incorrect active status')
+
+    def _check_dates(self):
+        try:
+            datetime.strptime(self.start_date, '%Y-%m-%d')
+        except ValueError:
+            print('Incorrect start_date')
+
+def get_ramdom_start_date() -> str:
+    DAYS_AGO = 4 * 30
+    DAYS_DIF = r.randint(1, 7)
+    DAYS_AGO = DAYS_AGO + r.choice([-1, 1]) * DAYS_DIF
+    date = datetime.now().date() - timedelta(days=DAYS_AGO)
+    return str(date)
+
 
 def get_random_url():
     c = countries.get_random()
@@ -64,7 +80,7 @@ def get_random_url():
         country=c,
         q=q,
         media_type=media_type,
-        start_date='2024-03-05',
+        start_date=get_ramdom_start_date(),
         active_status=active_status,
     )
 
