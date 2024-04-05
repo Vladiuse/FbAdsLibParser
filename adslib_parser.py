@@ -66,6 +66,7 @@ if args.command == 'parse':
         active_status = FbAdsLibUrl.ACTIVE
     else:
         active_status = FbAdsLibUrl.INACTIVE
+    from selenium.common.exceptions import TimeoutException, WebDriverException
 
     if not INFINITY:
         run_adslib_parser(txt_loger, country=country, language=language,
@@ -77,10 +78,13 @@ if args.command == 'parse':
         while True:
             loop_count += 1
             print(f'InFY loop #{loop_count}')
-            run_adslib_parser(txt_loger, country=country, language=language,
-                              active_status=active_status, keys_range=(start_key, end_key),
-                              proxy=proxy, proxy_change_ip_url=proxy_change_ip_url, start_date=start_date
-                              )
+            try:
+                run_adslib_parser(txt_loger, country=country, language=language,
+                                  active_status=active_status, keys_range=(start_key, end_key),
+                                  proxy=proxy, proxy_change_ip_url=proxy_change_ip_url, start_date=start_date
+                                  )
+            except WebDriverException as error:
+                print('Infy error', error)
             sleep(10)
 
 elif args.command == 'parse_stat':
